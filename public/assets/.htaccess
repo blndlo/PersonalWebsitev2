@@ -1,0 +1,5 @@
+# Everything Vite writes to dist/assets/ has a content hash in its name, so it
+# never changes and can be cached for a year. (Copied to dist/assets/.htaccess.)
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

@@ -6,6 +6,7 @@ import Contact from './components/Contact';
 import Projects from './components/Projects';
 import Blog from './components/Blog';
 import NotFound from './components/NotFound';
+import ChunkErrorBoundary from './components/ChunkErrorBoundary';
 import ScrollToTop from './components/ScrollToTop';
 
 const CHUNK_RELOAD_KEY = 'chunk-reload';
@@ -50,9 +51,11 @@ function App() {
         <Route
           path="/blog/:slug"
           element={
-            <Suspense fallback={null}>
-              <BlogPost />
-            </Suspense>
+            <ChunkErrorBoundary>
+              <Suspense fallback={null}>
+                <BlogPost />
+              </Suspense>
+            </ChunkErrorBoundary>
           }
         />
         <Route path="/contact" element={<Contact />} />

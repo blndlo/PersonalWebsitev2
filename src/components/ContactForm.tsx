@@ -64,6 +64,7 @@ export default function ContactForm() {
             <Input
               id="name"
               aria-invalid={status === 'invalid' && !form.name.trim()}
+              aria-describedby={status === 'invalid' ? 'form-error' : undefined}
               name="name"
               required
               maxLength={100}
@@ -79,6 +80,7 @@ export default function ContactForm() {
             <Input
               id="email"
               aria-invalid={status === 'invalid' && !form.email.trim()}
+              aria-describedby={status === 'invalid' ? 'form-error' : undefined}
               name="email"
               type="email"
               required
@@ -95,6 +97,7 @@ export default function ContactForm() {
             <Input
               id="subject"
               aria-invalid={status === 'invalid' && !form.subject.trim()}
+              aria-describedby={status === 'invalid' ? 'form-error' : undefined}
               name="subject"
               required
               maxLength={150}
@@ -109,6 +112,7 @@ export default function ContactForm() {
             <textarea
               id="message"
               aria-invalid={status === 'invalid' && !form.message.trim()}
+              aria-describedby={status === 'invalid' ? 'form-error' : undefined}
               name="message"
               required
               rows={6}
@@ -158,7 +162,9 @@ export default function ContactForm() {
               </p>
             )}
             {status === 'invalid' && (
-              <p className="text-destructive">Please fill in every field.</p>
+              <p id="form-error" className="text-destructive">
+                Please fill in every field.
+              </p>
             )}
             {status === 'throttled' && (
               <p className="text-destructive">
