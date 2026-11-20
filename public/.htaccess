@@ -1,0 +1,29 @@
+# Apache/LiteSpeed config for cPanel hosting. Vite copies this file into dist/.
+
+# Don't list directory contents (e.g. /assets/)
+Options -Indexes
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "DENY"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  # Only same-origin scripts/fonts/images; the contact form may call EmailJS.
+  # Blog images must live in public/ — external image URLs are blocked by img-src.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://api.emailjs.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+
+  # Default: always revalidate (index.html, favicon.svg, files from public/).
+  Header set Cache-Control "no-cache"
+  # Vite's content-hashed build files (name-AbC123xY.ext) never change: cache for a year.
+  <FilesMatch "-[A-Za-z0-9_-]{8}\.(js|css|woff2|jpg|jpeg|png|webp|svg|pdf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+
+# Once HTTPS (e.g. cPanel AutoSSL) is working, uncomment to force it and enable HSTS:
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# <IfModule mod_headers.c>
+#   Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+# </IfModule>
